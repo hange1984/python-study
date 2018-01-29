@@ -1,45 +1,47 @@
 # -*- coding: UTF-8-*-
-#SSH ËùÓÃ°ü
+#SSH ä¸“ç”¨åŒ…
 import paramiko
-# ¶àÏß³ÌËùÓÃ°ü
+# å¤šçº¿ç¨‹ä¸“ç”¨åŒ…
 import threading
 
-#½«ip_list.txtÄÚµÄip¼ÓÈëµ½iplist¡¾¡¿ÄÚ
+#å°†IP_LISTæ–‡ä»¶å†…å®¹åŠ å…¥åˆ°iplist()é‡Œã€‚
 iplist=['10.128.157.131','10.128.157.133']
 passwd=['123','root','Root1234']
 f=open('ip_list.txt','r')
 for line in f:
-	line=line.strip()
-	iplist.append(line)
+    line=line.strip()
+    iplist.append(line)
 print(iplist)
 print(len(iplist))
 f.close
 
-#½¨Á¢º¯Êý
+#è®¾ç½®SSHå‡½æ•°ï¼Œ
 def ssh(ip,passwd,cmd):
-	#½¨Á¢SSHÁ´½Ó
-	ssh=paramiko.SSHClient()
-	#×Ô¶¯½ÓÊÕ¹«Ô¿
-	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-	print "----thread going to try:------",ip,"-------------"
-	#ÃÜÂëÑ­»·£¬try³É¹¦ÔËÐÐ£¬²»³É¹¦µ½except¡£
-	for pwd_try in passwd:
-		try:
-			ssh.connect(ip,22,username='root',password=pwd_try,timeout=4)
-			stdin,stdout,stderr = ssh.exec_command(cmd)
-			print "\n"
-			print stdout.readline()
-			print "IP is: ",ip, "passwd is ", pwd_try, " trying right"
-			print "\n"
-			break
-		except:
-			print ip,pwd_try,' trying wrong'
-	ssh.close()
+    #å»ºç«‹sshé“¾æŽ¥
+    ssh=paramiko.SSHClient()
+    #è®¾ç½®sshè‡ªåŠ¨æŽ¥æ”¶å…¬é’¥
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    print("----thread going to try:------",ip,"-------------")
+    #ä½¿ç”¨rootè¿›è¡Œé“¾æŽ¥ï¼Œå¦‚æžœæ­£ç¡®æ‰§è¡Œå‘½ä»¤ã€‚é”™è¯¯è·³åˆ°except
+    for pwd_try in passwd:
+        try:
+            ssh.connect(ip,22,username='root',password=pwd_try,timeout=4)
+            stdin,stdout,stderr = ssh.exec_command(cmd)
+            print("\n")
+            print(stdout.readline())
+            print("IP is: ",ip, "passwd is ", pwd_try, " trying right")
+            print("\n")
+            break
+        except:
+            print(ip,pwd_try,' trying wrong')
+    ssh.close()
 if __name__ == '__main__':
-	cmd = 'hostname'
-	threads = [len(iplist)]
-	print threads
-	print '****threading start*****'
-	for ip in iplist:
-		thread = threading.Thread(target=ssh,args=(ip,passwd,cmd))
-		thread.start()
+    cmd = 'hostname'
+    #è¿™ä¸ªåº”è¯¥æ²¡ä»€ä¹ˆç”¨ã€‚
+    threads = [len(iplist)]
+    print(threads)
+    print('****threading start*****')
+    #å¤šçº¿ç¨‹è°ƒç”¨sshå‡½æ•°ã€‚
+    for ip in iplist:
+        thread = threading.Thread(target=ssh,args=(ip,passwd,cmd))
+        thread.start()
