@@ -22,6 +22,17 @@ def main():
 		if re.match(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}",ip):
 			check(ip,4)
 			check(str(re.match("\d+\.\d+\.\d+",ip).group()),3)
+			check(str(re.match(r"\d+\.\d+",ip).group()),2)
+
+	c4 = sorted(dict4.items(), key=lambda key: key[1], reverse=1)
+	c3 = sorted(dict4.items(), key=lambda key: key[1], reverse=1)
+	c2 = sorted(dict4.items(), key=lambda key: key[1], reverse=1)
+
+	writeFile("c4_result",c4)
+	writeFile("c3_result",c3)
+	writeFile("c2_result",c2)
+
+
 
 
 
