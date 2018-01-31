@@ -32,9 +32,17 @@ def main():
 	writeFile("c3_result",c3)
 	writeFile("c2_result",c2)
 
+def check(ip,size)
 
 
-
+	if size ==4:
+		dice4[ip] = dict4.get(ip,0) +1
+	elif size == 3 :
+		dict3[ip] = dict3.get(ip,0) +1
+	elif size == 2 :
+		dict2[ip] = dict2.get(ip,0) +1
+	else:
+		pass
 
 
 
